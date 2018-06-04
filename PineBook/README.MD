@@ -1,7 +1,7 @@
 PineBook related scripts
 ========================
 
-This folder contains scripts and setup for PineBook, that is placed on the ground/boat and that controls ROV via LAN connection.
+This folder contains scripts and setup for PineBook, that is placed on the ground/boat and controls ROV via LAN connection.
 
 ###Dependencies
 

@@ -10,7 +10,8 @@ class master:
         
         self.logger = Logger("mainLog")
 
-        self.InPorts = ["10001","10010"]
+        self.InGamepad = "10001"
+        self.InSoPine = "10010"
         self.OutPortSoPine = "10009"
 
         self.enabled = True
@@ -21,10 +22,10 @@ class master:
         
         self.getROVip()
         
-        self.subscriber.connect('tcp://127.0.0.1:'+self.InPorts[0])
-        self.logger.save_line("Binded to port: " + self.InPorts[0])
-        self.subscriber.connect('tcp://'+self.ROVip +':'+self.InPorts[1])
-        self.logger.save_line("Binded to port: " + self.InPorts[1])
+        self.subscriber.connect('tcp://127.0.0.1:'+self.InGamepad)
+        self.logger.save_line("Binded to port: " + self.InGamepad)
+        self.subscriber.connect('tcp://'+self.ROVip +':'+self.InSoPine)
+        self.logger.save_line("Binded to port: " + self.InSoPine)
         self.subscriber.setsockopt(zmq.SUBSCRIBE, b"")
 
         sleep(0.5)
@@ -44,10 +45,10 @@ class master:
         self.enabled = False
     
     def deinitRobot(self):
-        self.subscriber.disconnect('tcp://127.0.0.1:'+self.InPorts[0])
-        self.logger.save_line("SUB disconnected from local port: " +self.InPorts[0])
-        self.subscriber.disconnect('tcp://'+self.ROVip +':'+self.InPorts[1])
-        self.logger.save_line("SUB disconnected from local port: "+self.InPorts[1])
+        self.subscriber.disconnect('tcp://127.0.0.1:'+self.InGamepad)
+        self.logger.save_line("SUB disconnected from local port: " +self.InGamepad)
+        self.subscriber.disconnect('tcp://'+self.ROVip +':'+self.InSoPine)
+        self.logger.save_line("SUB disconnected from local port: "+self.InSoPine)
         
         self.publisherSoPine.disconnect('tcp://'+self.ROVip +':'+self.OutPortSoPine)
         self.logger.save_line("PUB_GPS disconnected from local port: " + self.OutPortSoPine)

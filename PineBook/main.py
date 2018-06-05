@@ -74,7 +74,11 @@ class master:
         self.msgSoPineOut= []
 		
     def parseMessage(self,msg):
-        print msg
+        if(msg.find("ID:GP")>-1):
+            if(msg.find("BTN")>-1):
+                btnNum = msg.split(",")[2]
+                btnState = msg.split(",")[3]
+                print "Button " + btnNum + " state: " + btnState 
 
     def initRobot(self):
         sleep(1)

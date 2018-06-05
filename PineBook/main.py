@@ -13,7 +13,9 @@ class master:
         self.InGamepad = "10001"
         self.InSoPine = "10010"
         self.OutPortSoPine = "10009"
-
+        
+        self.msgSoPineOut = []
+        
         self.enabled = True
         signal.signal(signal.SIGINT, self.sigINT_Handler)
         self.zMQC = zmq.Context()
@@ -68,9 +70,16 @@ class master:
             msg = self.subscriber.recv_string()
             self.parseMessage(msg)
             waitingMSG = self.subscriber.poll(100,zmq.POLLIN)
-
-    def parseMessage(self,data):
-        return 0
+		
+        for msg in self.msgSoPineOut:
+            self.publisherSoPine.send_string(msg)
+            self.logger.save_line("sending:"+msg)
+		
+        self.msgSoPineOut= []
+		
+    def parseMessage(self,msg):
+        
+        print msg
 
     def initRobot(self):
         sleep(1)

@@ -2,7 +2,7 @@
 import subprocess
 import zmq
 from time import sleep
-
+from Logger import Logger
 class MyZMQ:
     def __init__(self):
         
@@ -47,6 +47,8 @@ class MyGamePad:
         self.my_clock = pygame.time.Clock()
         self.num_of_gamepads = pygame.joystick.get_count()
         
+        self.logger = Logger("GamepadLogger")
+        
         self.enabled = True
         
         self.enable_serial = False
@@ -82,13 +84,15 @@ class MyGamePad:
     def check_buttons_down(self):
         for i in range( self.btns_num):
             if(self.btns_state[i] is not self.my_gamepad.get_button(i)):
-                self.zMQ.send_string("gamePad,BTN," + str(i) + ",D,\r\n")
+                self.zMQ.send_string("ID:GP,BTN," + str(i) + ",D,\r\n")
+                self.logger.save_line("ID:GP,BTN," + str(i) + ",D,\r\n")
                 self.btns_state[i] = self.my_gamepad.get_button(i)
 
     def check_buttons_up(self):
         for i in range( self.btns_num):
             if(self.btns_state[i] is not self.my_gamepad.get_button(i)):
-                self.zMQ.send_string("gamePad,BTN," + str(i) + ",U,\r\n")
+                self.zMQ.send_string("ID:GP,BTN," + str(i) + ",U,\r\n")
+                self.logger.save_line("ID:GP,BTN," + str(i) + ",U,\r\n")
                 self.btns_state[i] = self.my_gamepad.get_button(i)
 
     def check_hat(self):
@@ -96,7 +100,8 @@ class MyGamePad:
             new_hat_state = self.my_gamepad.get_hat(i)
             for j in range(len(self.hats_state[i])): ## 0 = X ; 1 = Y
                 if(self.hats_state[i][j] is not new_hat_state[j]):
-                    self.zMQ.send_string("gamePad,HAT,"+ str(i) + "," + str(j) + "," +str(new_hat_state[j]) + "\r\n")
+                    self.zMQ.send_string("ID:GP,HAT,"+ str(i) + "," + str(j) + "," +str(new_hat_state[j]) + "\r\n")
+                    self.logger.save_line("ID:GP,HAT,"+ str(i) + "," + str(j) + "," +str(new_hat_state[j]) + "\r\n")
                     self.hats_state[i] = new_hat_state
                     
     def check_axes(self):
@@ -104,7 +109,8 @@ class MyGamePad:
         for i in range(self.axes_num):
             new_value = round(self.my_gamepad.get_axis(i),2)
             if(self.axis_state[i] is not new_value):
-                self.zMQ.send_string("gamePad,AXS," + str(i) + "," + str(new_value) + "\r\n")
+                self.zMQ.send_string("ID:GP,AXS," + str(i) + "," + str(new_value) + "\r\n")
+                self.logger.save_line("ID:GP,AXS," + str(i) + "," + str(new_value) + "\r\n")
                 self.axis_state[i] = new_value
                     
     def main_loop(self):

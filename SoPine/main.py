@@ -77,9 +77,13 @@ class master:
         while(waitingMSG > 0):
             msg = self.subscriber.recv_string()
             self.parseMessage(msg)
-            if(False):
-				pass
             waitingMSG = self.subscriber.poll(100,zmq.POLLIN)
+        for msg in self.msgRPiOut:
+            self.publisherRPi.send_string(msg)
+        self.msgRPiOut = []
+        for msg in self.msgPBOut:
+            self.publisherPB.send_string(msg)
+        self.msgPBOut = []
 
     def parseMessage(self,data):
         return 0

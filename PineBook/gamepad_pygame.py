@@ -5,15 +5,15 @@ from time import sleep
 
 class MyZMQ:
     def __init__(self):
-        self.disconected = True
-        self.enabled = True
+        
+        self.zmqPort = "10001"
 
-        self.zmqPort = 10000
-
-        self.zmqID = "-1"
+        self.zmqID = "gamepad"
         zmq_cont = zmq.Context()
         self.publisher = zmq_cont.socket(zmq.PUB)
-
+        
+        
+        
         def sigINT_Handler(signal, frame):
             print("\nYou pressed Ctrl+C")
             self.publisher.disconnect('tcp://127.0.0.1:'+str(self.zmqPort))
@@ -23,36 +23,12 @@ class MyZMQ:
 
         signal.signal(signal.SIGINT, sigINT_Handler)
 
-        self.get_args()
-        self.disconnected = not self.connect_zmq()
+        self.publisher.connect('tcp://127.0.0.1:'+str(self.zmqPort))
 
-    def get_args(self):
-        if(len(sys.argv) < 2):
-            print ("Usage: " + str(sys.argv[0]) + " <ZMQPort> <ID>" )
-            sys.exit(0)
-
-        if(len(sys.argv) >= 2):
-            self.zmqPort = str(sys.argv[1])
-
-        if(len(sys.argv) >= 3):
-            self.zmqID = str(sys.argv[2])
-
-        print("Settings -> ZMQ port: " + self.zmqPort
-              + " ID: " + str(self.zmqID))
-
-    def connect_zmq(self):
-        try:
-            self.publisher.connect('tcp://127.0.0.1:'+str(self.zmqPort))
-            sleep(1)
-            return True
-        except:
-            print("Failed to connect to ZMQ, path:")
-            print('tcp://127.0.0.1:'+str(self.zmqPort))
-            return False
+        sleep(0.5)
 
     def send_string(self,data):
-        if(not self.disconnected):
-            self.publisher.send_string(data)
+        self.publisher.send_string(data)
 
     def disconnect(self):
         if(not self.disconnected):
@@ -67,8 +43,7 @@ class MyGamePad:
         pygame.joystick.init()
 
         self.zMQ = MyZMQ()
-        self.zMQ.connect_zmq()
-        
+                
         self.my_clock = pygame.time.Clock()
         self.num_of_gamepads = pygame.joystick.get_count()
         
@@ -102,7 +77,6 @@ class MyGamePad:
         
         self.main_loop()
         
-        self.zMQ.disconnect()
         self.deinit()
         
     def check_buttons_down(self):

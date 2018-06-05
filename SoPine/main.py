@@ -28,6 +28,9 @@ class master:
         self.logger.save_line("SUB connected to local port: " + self.InRPi)
         self.subscriber.setsockopt(zmq.SUBSCRIBE, b"")
 
+        self.msgRPiOut = []
+        self.msgPBOut = []
+
         sleep(0.5)
         
         self.publisherPB = zMQC.socket(zmq.PUB)
@@ -85,8 +88,13 @@ class master:
             self.publisherPB.send_string(msg)
         self.msgPBOut = []
 
-    def parseMessage(self,data):
-        return 0
+    def parseMessage(self,msg):
+        if(msg.find("ID:PB")>-1):
+            self.msgPBOut.append("ID:SoPine;"+msg[5:])
+        elif(msg.find("ID:RPi")>-1):
+            self.msgRPiOut.append("ID:SoPine;"+msg[6:])
+        else:
+            self.logger.save_line("Unsupported message ID, <" +msg+ ">")
 
     def initRobot(self):
         sleep(1)

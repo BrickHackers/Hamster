@@ -79,7 +79,18 @@ class master:
                 btnNum = msg.split(",")[2]
                 btnState = msg.split(",")[3]
                 print "Button " + btnNum + " state: " + btnState 
-
+            elif(msg.find("HAT")>-1):
+                hatNum = msg.split(",")[2]
+                hat2Num = msg.split(",")[3]
+                hatState = msg.split(",")[4]
+                print "Hat " + hatNum + hat2Num+" state: " + hatState
+            elif(msg.find("AXS")>-1):
+                axsNum = msg.split(",")[2]
+                axsValue = msg.split(",")[3]
+                print "Axes " + axsNum+" value: " + axsValue
+            else:
+                self.logger.save_line("Wrong input")
+            
     def initRobot(self):
         sleep(1)
 

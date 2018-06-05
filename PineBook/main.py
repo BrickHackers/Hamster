@@ -55,11 +55,9 @@ class master:
         self.publisherSoPine.disconnect('tcp://'+self.ROVip +':'+self.OutPortSoPine)
         self.logger.save_line("PUB_GPS disconnected from local port: " + self.OutPortSoPine)
 
-
     def getROVip(self):
-        data =subprocess.check_output(["cat","/var/lib/misc/dnsmasq.leases"])
+        data = subprocess.check_output(["cat","/var/lib/misc/dnsmasq.leases"])
         self.ROVip = data.split(" ")[2]
-        
 
     def checkAll(self):
         msg = ""
@@ -70,15 +68,12 @@ class master:
             msg = self.subscriber.recv_string()
             self.parseMessage(msg)
             waitingMSG = self.subscriber.poll(100,zmq.POLLIN)
-		
         for msg in self.msgSoPineOut:
             self.publisherSoPine.send_string(msg)
             self.logger.save_line("sending:"+msg)
-		
         self.msgSoPineOut= []
 		
     def parseMessage(self,msg):
-        
         print msg
 
     def initRobot(self):
@@ -90,5 +85,6 @@ class master:
             self.checkAll()
             sleep(0.1)
         self.deinitRobot
+
 M = master()
 M.run()

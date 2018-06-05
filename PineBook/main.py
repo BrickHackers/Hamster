@@ -25,9 +25,9 @@ class master:
         self.getROVip()
         
         self.subscriber.connect('tcp://127.0.0.1:'+self.InGamepad)
-        self.logger.save_line("Binded to port: " + self.InGamepad)
+        self.logger.save_line("SUB connected to local port: " + self.InGamepad)
         self.subscriber.connect('tcp://'+self.ROVip +':'+self.InSoPine)
-        self.logger.save_line("Binded to port: " + self.InSoPine)
+        self.logger.save_line("SUB connected to: " + self.ROVip + ":" + self.InSoPine)
         self.subscriber.setsockopt(zmq.SUBSCRIBE, b"")
 
         sleep(0.5)
@@ -37,7 +37,7 @@ class master:
     def connectPublishers(self):
         self.publisherSoPine = self.zMQC.socket(zmq.PUB)
         self.publisherSoPine.bind('tcp://10.42.0.1:'+self.OutPortSoPine)
-        self.logger.save_line("PublisherGPS connected to port: " + self.OutPortSoPine)
+        self.logger.save_line("PublisherSoPine binded to port: " + self.OutPortSoPine)
 
         sleep(0.5)
         

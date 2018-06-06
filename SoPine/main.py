@@ -90,11 +90,35 @@ class master:
 
     def parseMessage(self,msg):
         if(msg.find("ID:PB")>-1):
-            self.msgPBOut.append("ID:SoPine;"+msg[5:])
-        elif(msg.find("ID:RPi")>-1):
-            self.msgRPiOut.append("ID:SoPine;"+msg[6:])
+            if(msg.find("TO:RPi")>0):
+                self.msgRPiOut.append(msg)
+            elif(msg.find("TO:SoPine")>0):
+                ''' TODO:
+                Camera support (On/Off)
+                GoPro (mode VID/PIC, start/stop/takePic, resolution(?))
+                '''
+                pass
+            elif(msg.find("TO:ALL")>0):
+                self.msgRPiOut.append(msg)
+                ''' TODO:
+                Start/Stop platform
+                EStop
+                '''
+            else:
+                self.logger.save_line("Unknown message destination! <" +msg+ ">")                
+        elif(msg.find("ID:RPi")>1):
+            pass
+            '''TODO:
+            add feedback for PineBook etc
+            '''
+        elif(msg.find("ID:MBED")>-1):
+            pass
+            '''TODO:
+            Battery checker
+            sensors udates
+            '''
         else:
-            self.logger.save_line("Unsupported message ID, <" +msg+ ">")
+            self.logger.save_line("Message ID not supported! <" +msg+ ">")
 
     def initRobot(self):
         sleep(1)

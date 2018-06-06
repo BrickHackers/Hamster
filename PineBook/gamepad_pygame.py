@@ -113,7 +113,7 @@ class MyGamePad:
 
     def deinit(self):
         pygame.quit()
-        self.publisher.disconect("tcp://127.0.0.1:"+ self.zmqPort)
+        self.publisher.disconnect("tcp://127.0.0.1:"+ self.zmqPort)
         self.logger.save_line("GamePad terminated")
         self.logger.close()
         

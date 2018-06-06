@@ -90,7 +90,7 @@ class MyGamePad:
         # upadate values
         for i in range(self.axes_num):
             new_value = round(self.my_gamepad.get_axis(i),2)
-            if(self.axis_state[i] is not new_value):
+            if(abs(abs(self.axis_state[i])-abs(new_value))>=0.02):
                 self.publisher.send_string("ID:GP,AXS," + str(i) + "," + str(new_value))
                 self.logger.save_line("ID:GP,AXS," + str(i) + "," + str(new_value))
                 self.axis_state[i] = new_value

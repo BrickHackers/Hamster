@@ -8,14 +8,14 @@ class MySerial():
         self.connected = False
         self.ToWrite = False
 
-        self.serBaud = 115200
+        self.baud = 115200
         self.mserial = serialName
         self.logger = Logger(serialID)
     
     def connect(self):
         if not self.connected:
             try:
-                self.ser = serial.Serial(self.mserial, self.mbaud)
+                self.ser = serial.Serial(self.mserial, self.baud)
                 self.ser.bytesize = serial.EIGHTBITS
                 self.ser.parity = serial.PARITY_NONE
                 self.ser.stopbits = serial.STOPBITS_ONE

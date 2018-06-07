@@ -21,7 +21,7 @@ class MySerial():
                 self.ser.stopbits = serial.STOPBITS_ONE
                 
                 self.disconected = False
-                print( "Connected to " + self.mserial)
+                self.logger.save_line("Connected to " + self.mserial)
                 
                 if(self.ser.readable()):
                     self.ser.flush()
@@ -29,10 +29,10 @@ class MySerial():
 
                 return True
             except:
-                print( "Failed connecting to " + self.mserial)
+                self.logger.save_line("Failed connecting to " + self.mserial)
                 return False
         else:
-             print( "Already connected to " + self.mserial)
+             self.logger.save_line("Already connected to " + self.mserial)
              
     def writeMessage(self, msg):
         toWrite = True

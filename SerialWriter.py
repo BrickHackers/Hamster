@@ -39,7 +39,7 @@ class MySerial():
                 msg += "\n"
             while(toWrite):
                 if(self.ser.writable()):
-                    self.ser.write(msg)
+                    self.ser.write(msg.encode())
                     toWrite = False
                 else:
                     sleep(0.01)

@@ -34,13 +34,22 @@ class MySerial():
         else:
              self.logger.save_line("Already connected to " + self.mserial)
              
-    def writeMessage(self, msg):
-        toWrite = True
-        while(toWrite):
-            if(self.ser.writable()):
-                self.ser.write(msg)
-                toWrite = False
-        
+    def send_string(self, msg):
+        if(self.connected):
+            toWrite = True
+            if(msg.find("\r")<1):
+                msg += "\r"
+            if(msg.find("\n")<1):
+                msg += "\n"
+            while(toWrite):
+                if(self.ser.writable()):
+                    self.ser.write(msg)
+                    toWrite = False
+                else:
+                    sleep(0.01)
+        else:
+            self.logger.save_line("Fail to send MSG <"+msg+">")
+            
     def disconnect(self):
         self.ser.flush()
         self.ser.close()

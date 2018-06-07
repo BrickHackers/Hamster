@@ -30,16 +30,12 @@ class master:
         self.getIP()
         
         zMQC = zmq.Context()
-        
         self.subscriber = zMQC.socket(zmq.SUB)
         self.subscriber.connect('tcp://10.42.0.1:'+self.InPB )
         self.logger.save_line("SUB connected to external IP: 10.42.0.1:" + self.InPB )
         self.subscriber.connect('tcp://127.0.0.1:'+self.InRPi)
         self.logger.save_line("SUB connected to local port: " + self.InRPi)
         self.subscriber.setsockopt(zmq.SUBSCRIBE, b"")
-
-
-        sleep(0.5)
         
         self.publisherPB = zMQC.socket(zmq.PUB)
         self.publisherPB.bind('tcp://'+self.ip+':'+self.OutPB)
@@ -77,14 +73,13 @@ class master:
         self.serialMBED.disconnect()
         
     def checkAll(self):
-        msg = ""
-        oldmsg = " "
         waitingMSG = self.subscriber.poll(100,zmq.POLLIN)
         print("Waiting msgs: " +str(waitingMSG))
         while(waitingMSG > 0):
             msg = self.subscriber.recv_string()
             self.parseMessage(msg)
             waitingMSG = self.subscriber.poll(100,zmq.POLLIN)
+        
         for msg in self.msgRPiOut:
             self.serialRPi.send_string(msg)
         self.msgRPiOut = []
@@ -135,7 +130,7 @@ class master:
         self.initRobot()
         while(self.enabled):
             self.checkAll()
-            sleep(0.1)
+            sleep(0.05)
         self.deinitRobot()
         
 M = master()

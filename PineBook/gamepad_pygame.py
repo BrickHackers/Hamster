@@ -66,15 +66,15 @@ class MyGamePad:
     def check_buttons_down(self):
         for i in range( self.btns_num):
             if(self.btns_state[i] is not self.my_gamepad.get_button(i)):
-                self.publisher.send_string("ID:GP,BTN," + str(i) + ",D")
-                self.logger.save_line("ID:GP,BTN," + str(i) + ",D")
+                self.publisher.send_string("ID:GP,BTN," + str(i) + ",1")
+                self.logger.save_line("ID:GP,BTN," + str(i) + ",1")
                 self.btns_state[i] = self.my_gamepad.get_button(i)
 
     def check_buttons_up(self):
         for i in range( self.btns_num):
             if(self.btns_state[i] is not self.my_gamepad.get_button(i)):
-                self.publisher.send_string("ID:GP,BTN," + str(i) + ",U")
-                self.logger.save_line("ID:GP,BTN," + str(i) + ",U,\r\n")
+                self.publisher.send_string("ID:GP,BTN," + str(i) + ",0")
+                self.logger.save_line("ID:GP,BTN," + str(i) + ",0")
                 self.btns_state[i] = self.my_gamepad.get_button(i)
 
     def check_hat(self):

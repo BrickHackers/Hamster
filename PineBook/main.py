@@ -16,6 +16,10 @@ class master:
         
         self.msgSoPineOut = []
         
+        self.comboLEDwhiteCold = 0
+        self.comboLEDred = 0
+        self.comboLEDwhiteWarm = 0
+        
         self.enabled = True
         signal.signal(signal.SIGINT, self.sigINT_Handler)
         self.zMQC = zmq.Context()
@@ -74,7 +78,6 @@ class master:
         self.msgSoPineOut= []
 		
     def parseMessage(self,msg):
-        comboLEDon = 0
         if(msg.find("ID:GP")>-1):
             if(msg.find("BTN")>-1):
                 btnNum = msg.split(",")[2]
@@ -82,18 +85,13 @@ class master:
                 print "Button " + btnNum + " state: " + btnState
                 if(btnState=="1"):
                     if(btnNum=="0"):
-                        comboLEDon = 1
-                        LEDwhiteCold = 1
+                        self.comboLEDwhiteCold = 1
                     elif(btnNum=="1"):
-                        comboLEDon = 1
-                        LEDred = 1
-                        
+                        self.comboLEDred = 1
                     elif(btnNum=="2"):
                         self.msgSoPineOut.append("ID:PB,TO:ALL,TotalStop")
                     elif(btnNum=="3"):
-                        comboLEDon = 1
-                        LEDwhiteWarm = 1
-                        
+                        self.comboLEDwhiteWarm = 1
                     elif(btnNum=="4"):
                         self.msgSoPineOut.append("ID:PB,TO:RPi,Motor,Z,1")
                     elif(btnNum=="5"):
@@ -108,49 +106,52 @@ class master:
                         self.msgSoPineOut.append("ID:PB,TO:All,Start")
                     else:
                         self.logger.save_line("Unspecified button: <"+btnNum+">")
-                else:
-                    comboLEDon = 0
-                    LEDwhiteCold = 0
-                    LEDred = 0
-                    LEDwhiteWarm = 0
+                
+                elif(btnState=="0"):
+                    if(btnNum=="0"):
+                        self.comboLEDwhiteCold = 0
+                    elif(btnNum=="1"):
+                        self.comboLEDred = 0
+                    elif(btnNum=="3"):
+                        self.comboLEDwhiteWarm = 0
+                        
             elif(msg.find("HAT")>-1):
                 hatNum = msg.split(",")[2]
                 hat2Num = msg.split(",")[3]
                 hatState = msg.split(",")[4]
                 print "Hat " + hatNum + hat2Num+" state: " + hatState
-                if(comboLEDon==1):
-                    if(hat2Num=="0"):
-                        if(hatState=="1"):
-                            if(LEDwhiteCold == 1):
-                                self.msgSoPineOut.append("ID:PB,TO:RPi,LED,whiteCold,ON")
-                            elif(LEDred == 1):
-                                self.msgSoPineOut.append("ID:PB,TO:RPi,LED,red,ON")
-                            elif(LEDwhiteWarm == 1):
-                                self.msgSoPineOut.append("ID:PB,TO:RPi,LED,whiteWarm,ON")
-                        elif(hatState=="-1"):
-                            if(LEDwhiteCold == 1):
-                                self.msgSoPineOut.append("ID:PB,TO:RPi,LED,whiteCold,OFF")
-                            elif(LEDred == 1):
-                                self.msgSoPineOut.append("ID:PB,TO:RPi,LED,red,OFF")
-                            elif(LEDwhiteWarm == 1):
-                                self.msgSoPineOut.append("ID:PB,TO:RPi,LED,whiteWarm,OFF")
-                    elif(hat2Num=="1"):
-                        if(hatState=="1"):
-                            if(LEDwhiteCold == 1):
-                                self.msgSoPineOut.append("ID:PB,TO:RPi,LED,whiteCold,10,i")
-                            elif(LEDred == 1):
-                                self.msgSoPineOut.append("ID:PB,TO:RPi,LED,red,10,i")
-                            elif(LEDwhiteWarm == 1):
-                                self.msgSoPineOut.append("ID:PB,TO:RPi,LED,whiteWarm,10,i")
-                        elif(hatState=="-1"):
-                            if(LEDwhiteCold == 1):
-                                self.msgSoPineOut.append("ID:PB,TO:RPi,LED,whiteCold,10,d")
-                            elif(LEDred == 1):
-                                self.msgSoPineOut.append("ID:PB,TO:RPi,LED,red,10,d")
-                            elif(LEDwhiteWarm == 1):
-                                self.msgSoPineOut.append("ID:PB,TO:RPi,LED,whiteWarm,10,d")
-                    else:
-                        self.logger.save_line("Unspecified HAT: <"+Hat2num+">")
+                if(hat2Num=="0"):
+                    if(hatState=="1"):
+                        if(self.comboLEDwhiteCold == 1):
+                            self.msgSoPineOut.append("ID:PB,TO:RPi,LED,whiteCold,ON")
+                        elif(self.comboLEDred == 1):
+                            self.msgSoPineOut.append("ID:PB,TO:RPi,LED,red,ON")
+                        elif(self.comboLEDwhiteWarm == 1):
+                            self.msgSoPineOut.append("ID:PB,TO:RPi,LED,whiteWarm,ON")
+                    elif(hatState=="-1"):
+                        if(self.comboLEDwhiteCold == 1):
+                            self.msgSoPineOut.append("ID:PB,TO:RPi,LED,whiteCold,OFF")
+                        elif(self.comboLEDred == 1):
+                            self.msgSoPineOut.append("ID:PB,TO:RPi,LED,red,OFF")
+                        elif(self.comboLEDwhiteWarm == 1):
+                            self.msgSoPineOut.append("ID:PB,TO:RPi,LED,whiteWarm,OFF")
+                elif(hat2Num=="1"):
+                    if(hatState=="1"):
+                        if(self.comboLEDwhiteCold == 1):
+                            self.msgSoPineOut.append("ID:PB,TO:RPi,LED,whiteCold,10,i")
+                        elif(self.comboLEDred == 1):
+                            self.msgSoPineOut.append("ID:PB,TO:RPi,LED,red,10,i")
+                        elif(self.comboLEDwhiteWarm == 1):
+                            self.msgSoPineOut.append("ID:PB,TO:RPi,LED,whiteWarm,10,i")
+                    elif(hatState=="-1"):
+                        if(self.comboLEDwhiteCold == 1):
+                            self.msgSoPineOut.append("ID:PB,TO:RPi,LED,whiteCold,10,d")
+                        elif(self.comboLEDred == 1):
+                            self.msgSoPineOut.append("ID:PB,TO:RPi,LED,red,10,d")
+                        elif(self.comboLEDwhiteWarm == 1):
+                            self.msgSoPineOut.append("ID:PB,TO:RPi,LED,whiteWarm,10,d")
+                else:
+                    self.logger.save_line("Unspecified HAT: <"+Hat2num+">")
                 
             elif(msg.find("AXS")>-1):
                 axsNum = msg.split(",")[2]

@@ -12,15 +12,15 @@ class MySerial():
         self.mserial = serialName
         self.logger = Logger(serialID)
     
-    def connect_serial(self):
-        if not self.connnected:
+    def connect(self):
+        if not self.connected:
             try:
                 self.ser = serial.Serial(self.mserial, self.mbaud)
                 self.ser.bytesize = serial.EIGHTBITS
                 self.ser.parity = serial.PARITY_NONE
                 self.ser.stopbits = serial.STOPBITS_ONE
                 
-                self.disconected = False
+                self.connected = True
                 self.logger.save_line("Connected to " + self.mserial)
                 
                 if(self.ser.readable()):

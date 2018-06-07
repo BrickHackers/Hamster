@@ -23,10 +23,6 @@ class MySerial():
                 self.connected = True
                 self.logger.save_line("Connected to " + self.mserial)
                 
-                if(self.ser.readable()):
-                    self.ser.flush()
-                    self.ser.readline()
-
                 return True
             except:
                 self.logger.save_line("Failed connecting to " + self.mserial)
@@ -43,7 +39,7 @@ class MySerial():
                 msg += "\n"
             while(toWrite):
                 if(self.ser.writable()):
-                    self.ser.write(msg)
+                    self.ser.write(msg.encode())
                     toWrite = False
                 else:
                     sleep(0.01)

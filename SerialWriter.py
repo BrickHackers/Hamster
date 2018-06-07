@@ -23,10 +23,6 @@ class MySerial():
                 self.connected = True
                 self.logger.save_line("Connected to " + self.mserial)
                 
-                if(self.ser.readable()):
-                    self.ser.flush()
-                    self.ser.readline()
-
                 return True
             except:
                 self.logger.save_line("Failed connecting to " + self.mserial)

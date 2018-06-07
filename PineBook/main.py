@@ -158,11 +158,11 @@ class master:
                 print "Axes " + axsNum+" value: " + axsValue
                 if(axsNum=="0"):
                     self.msgSoPineOut.append("ID:PB,TO:RPi,Motor,Rot,B,"+axsValue)
-                elif(btnNum=="1"):
+                elif(axsNum=="1"):
                     self.msgSoPineOut.append("ID:PB,TO:RPi,Motor,Move,X"+axsValue)
-                elif(btnNum=="2"):
+                elif(axsNum=="2"):
                     self.msgSoPineOut.append("ID:PB,TO:RPi,Cam,Rot,B"+axsValue)
-                elif(btnNum=="3"):
+                elif(axsNum=="3"):
                     self.msgSoPineOut.append("ID:PB,TO:RPi,Cam,Rot,C"+axsValue)
             else:
                 self.logger.save_line("Wrong input from gamepad: <"+msg+">")

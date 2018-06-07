@@ -21,10 +21,10 @@ class master:
         self.enabled = True
         signal.signal(signal.SIGINT, self.sigINT_Handler)
         
-        self.serialRPi = MySerial("/dev/ttyS3", "Serial_TO_rpi")
+        self.serialRPi = MySerial("/dev/ttyS4", "Serial_TO_rpi")
         self.serialRPi.connect()
         
-        self.serialMBED = MySerial("/dev/ttyS2", "Serial_TO_mbed")
+        self.serialMBED = MySerial("/dev/ttyS3", "Serial_TO_mbed")
         self.serialMBED.connect()
         
         self.getIP()

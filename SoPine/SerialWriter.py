@@ -51,7 +51,11 @@ class MySerial():
             self.logger.save_line("Fail to send MSG <"+msg+">")
             
     def disconnect(self):
-        self.ser.flush()
-        self.ser.close()
-        
+        if self.connected :
+            self.ser.flush()
+            self.ser.close()
+            self.connected = False
+            self.logger.save_line("Serial disconnected.")
+        self.logger.save_line("Serial Logger closed.")
+        self.logger.close()
         

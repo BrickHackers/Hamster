@@ -39,6 +39,7 @@ class MySerial():
                 msg += "\n"
             while(toWrite):
                 if(self.ser.writable()):
+                    self.logger.save_line(msg)
                     self.ser.write(msg.encode())
                     toWrite = False
                 else:

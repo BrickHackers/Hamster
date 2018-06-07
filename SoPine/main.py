@@ -4,6 +4,7 @@ import sys
 from time import sleep
 import zmq
 import subprocess
+from SerialWriter import MySerial
 
 class master:
     def __init__(self):
@@ -12,10 +13,19 @@ class master:
         self.InPB = "10009"
         self.OutPB = "10010"
         self.InRPi = "10029"
-        self.OutRPi = "10011"
+        
+        self.msgRPiOut = []
+        self.msgMBEDOut = []
+        self.msgPBOut = []
 
         self.enabled = True
         signal.signal(signal.SIGINT, self.sigINT_Handler)
+        
+        self.serialRPi = MySerial("/dev/ttyS3", "Serial_TO_rpi")
+        self.serialRPi.connect()
+        
+        self.serialMBED = MySerial("/dev/ttyS2", "Serial_TO_mbed")
+        self.serialMBED.connect()
         
         self.getIP()
         
@@ -28,8 +38,6 @@ class master:
         self.logger.save_line("SUB connected to local port: " + self.InRPi)
         self.subscriber.setsockopt(zmq.SUBSCRIBE, b"")
 
-        self.msgRPiOut = []
-        self.msgPBOut = []
 
         sleep(0.5)
         
@@ -37,10 +45,6 @@ class master:
         self.publisherPB.bind('tcp://'+self.ip+':'+self.OutPB)
         self.logger.save_line("PublisherPB binded to: " + self.ip + ":" + self.OutPB)
 
-        self.publisherRPi = zMQC.socket(zmq.PUB)
-        self.publisherRPi.bind('tcp://127.0.0.1:'+self.OutRPi)
-        self.logger.save_line("PublisherRPi binded to local port: " + self.OutRPi)
-        
         sleep(0.5)
     
     def getIP(self):
@@ -68,9 +72,9 @@ class master:
         
         self.publisherPB.disconnect('tcp://'+ self.ip + ':' + self.OutPB)
         self.logger.save_line("PUB_PB disconnected from remote port: 10.42.0.1:" + self.OutPB)
-
-        self.publisherRPi.disconnect('tcp://127.0.0.1:'+self.OutRPi)
-        self.logger.save_line("PUB_RPi disconnected from local port: " + self.OutRPi)
+        
+        self.serialRPi.disconnect()
+        self.serialMBED.disconnect()
         
     def checkAll(self):
         msg = ""
@@ -82,8 +86,11 @@ class master:
             self.parseMessage(msg)
             waitingMSG = self.subscriber.poll(100,zmq.POLLIN)
         for msg in self.msgRPiOut:
-            self.publisherRPi.send_string(msg)
+            self.serialRPi.send_string(msg)
         self.msgRPiOut = []
+        for msg in self.msgMBEDOut:
+            self.serialMBED.send_string(msg)
+        self.msgMBEDOut = []
         for msg in self.msgPBOut:
             self.publisherPB.send_string(msg)
         self.msgPBOut = []
@@ -100,6 +107,7 @@ class master:
                 pass
             elif(msg.find("TO:ALL")>0):
                 self.msgRPiOut.append(msg)
+                self.msgMBEDOut.append(msg)
                 ''' TODO:
                 Start/Stop platform
                 EStop
@@ -107,12 +115,12 @@ class master:
             else:
                 self.logger.save_line("Unknown message destination! <" +msg+ ">")                
         elif(msg.find("ID:RPi")>1):
-            pass
+            self.msgRPiOut.append(msg)
             '''TODO:
             add feedback for PineBook etc
             '''
         elif(msg.find("ID:MBED")>-1):
-            pass
+            self.msgMBEDOut.append(msg)
             '''TODO:
             Battery checker
             sensors udates

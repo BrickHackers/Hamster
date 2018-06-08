@@ -109,7 +109,7 @@ class SerialReader():
             if(self.ser.readable()):
                 line = self.ser.readline()
                 self.logger.save_line("Incomming msg: <"+line+">")
-                self.publisher.send_string("ID:"+self.zmqID+","+line)
+                self.publisher.send_string(line)
             sleep(0.001)
         self.deinit()
 

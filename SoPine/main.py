@@ -115,7 +115,7 @@ class master:
                 GoPro (mode VID/PIC, start/stop/takePic, resolution(?))
                 '''
                 pass
-            elif(msg.find("TO:ALL")>0):
+            elif(msg.find("TO:All")>0):
                 self.msgRPiOut.append(msg)
                 self.msgMBEDOut.append(msg)
                 ''' TODO:

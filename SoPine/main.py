@@ -18,7 +18,9 @@ class master:
         self.msgRPiOut = []
         self.msgMBEDOut = []
         self.msgPBOut = []
-
+        
+        self.GoProREC = 0
+        
         self.enabled = True
         signal.signal(signal.SIGINT, self.sigINT_Handler)
         
@@ -96,6 +98,18 @@ class master:
             if(msg.find("TO:RPi")>0):
                 self.msgRPiOut.append(msg)
             elif(msg.find("TO:SoPine")>0):
+                FirstPart = msg.split(",")[2]
+                SecondPart = msg.split(",")[3]
+                if(FirstPart == "GoPro"):
+                    if(SecondPart == "REC"):
+                        if(self.GoProREC == 0):
+                            self.GoProREC = 1
+                        elif(self.GoProREC == 1):
+                            self.GoProREC = 0
+                        else:
+                            self.logger.save_line("GoPro confused!")
+                    else:
+                        self.logger.save_line("Unknown GoPro message! <" +SecondPart+ ">")                
                 ''' TODO:
                 Camera support (On/Off)
                 GoPro (mode VID/PIC, start/stop/takePic, resolution(?))

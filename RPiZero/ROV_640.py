@@ -24,7 +24,7 @@ class LEDs:
 		self.LED.off()
 		
 	def on(self):
-		seld.LED.setMotorSpeed(self.intensity)
+		self.LED.setMotorSpeed(self.intensity)
 		
 	def change_intensity(self,value):
 		new_intensity = self.intensity + value

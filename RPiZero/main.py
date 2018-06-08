@@ -21,7 +21,8 @@ class master:
         LedRA = LEDs(3)
         
         self.Leds = [LedWC, LedWW, LedRA]
-        
+        self.leds_dict = {"whiteCold":0,"whiteWarm":1,"red":2}
+    
         self.pump = Pump(6)
         
         self.Motors = [LedWC, LedWW, LedRA]
@@ -39,7 +40,7 @@ class master:
         self.subscriber.setsockopt(zmq.SUBSCRIBE, b"")
         
         sleep(0.5)
-    
+        
     def getIP(self):
         cmd = ["ip","address"]
         data = subprocess.check_output(cmd)
@@ -75,33 +76,53 @@ class master:
         self.msgSoPineOut = []
 
     def parseMessage(self,msg):
-		data = msg.split(",")
-		if(data[1] == "TO:RPi"):
-			if(data[2] == "LED"):
-				self.parseLED(data[3:])
-			elif(data[2] == "Motor"):
-				self.parseMotor(data[3:])
-			elif(data[2] == "CAM") and (data[3] == "Rot"):
-				self.parseServo(data[3:])
-			elif(data[2] == "Pump"):
-				self.parsePump(data[3:])
-		elif(data[1] == "TO:ALL"):
-			if(data[2] == "TotalStop"):
-				self.estop()
-			elif(data[2] == "Start"):
-				self.enable()
-		else:
-			self.logger.save_line("Unknown message destination! <" +msg+ ">")
+        data = msg.split(",")
+        if(data[1] == "TO:RPi"):
+            if(data[2] == "LED"):
+                self.parseLED(data[3:])
+            elif(data[2] == "Motor"):
+                self.parseMotor(data[3:])
+            elif(data[2] == "CAM") and (data[3] == "Rot"):
+                self.parseServo(data[3:])
+            elif(data[2] == "Pump"):
+                self.parsePump(data[3:])
+        elif(data[1] == "TO:All"):
+            if(data[2] == "TotalStop"):
+                self.estop()
+            elif(data[2] == "Start"):
+                self.enable()
+            else:
+                self.logger.save_line("Unknown message toAll <"+data[1]+ ";"+data[2]+">" )
+        else:
+            self.logger.save_line("Unknown message destination! <" +msg+ ">")
 	
     def parseLED(self,data):
+        print "Parsing LEDs " + str(self.leds_dict[data[0]])
         if(self.externals):
-            #TODO smt
-            pass
-			
+            if(data[1] == "ON"):
+                print "LED" + data[0] + " ON"
+                self.Leds[self.leds_dict[data[0]]].on()
+            elif(data[1] == "OFF"):
+                self.Leds[self.leds_dict[data[0]]].off()
+                print "LED" + data[0] + " OFF"
+            elif(data[1] == "10"):
+                if(data[2] == "i"):
+                    self.Leds[self.leds_dict[data[0]]].change_intensity(int(data[1]))
+                    print "LED" + data[0] + " increase " + str(int(data[1]))
+                elif(data[2] == "d"):
+                    self.Leds[self.leds_dict[data[0]]].change_intensity(-1*int(data[1]))
+                    print "LED" + data[0] + " decrease " + str(-1*int(data[1]))
+                else:
+                    self.logger.save_line("Unknown LED intensity! <" +data[:]+ ">")
+            else:
+                self.logger.save_line("Unknown LED command! <" +data[:]+ ">")
+        else:
+            self.logger.save_line("LEDs not enabled!")
+    
     def parseMotor(self,data):
         if(self.externals):
 			#TODO smt
-			pass
+			passs
     def parseServo(self,data):
         if(self.externals):
 			#TODO smt

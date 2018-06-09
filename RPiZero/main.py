@@ -126,8 +126,14 @@ class master:
     
     def parseMotor(self,data):
         if(self.externals):
-			#TODO smt
-			passs
+			speed = data[3]
+            direction = data[2]
+            motorA = speed + direction
+            motorB = speed - direction
+			
+            self.Motors[0].update_speed(MotorA)
+            self.Motors[1].update_speed(MotorB)
+    
     def parseServo(self,data):
         if(self.externals):
 			#TODO smt

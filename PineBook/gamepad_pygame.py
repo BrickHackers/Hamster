@@ -88,13 +88,17 @@ class MyGamePad:
                     
     def check_axes(self):
         # upadate values
+        new_value = []
         for i in range(self.axes_num):
-            new_value = round(self.my_gamepad.get_axis(i),2)
-            if(abs(abs(self.axis_state[i])-abs(new_value))>=0.02):
-                self.publisher.send_string("ID:GP,AXS," + str(i) + "," + str(new_value))
-                self.logger.save_line("ID:GP,AXS," + str(i) + "," + str(new_value))
-                self.axis_state[i] = new_value
-                    
+            new_value.append(round(self.my_gamepad.get_axis(i),2))
+        
+        for i in [0,2]:
+            if((abs(self.axis_state[i]-new_value[i])>=0.02) or (abs(self.axis_state[i+1]-new_value[i+1])>=0.02)):
+                self.publisher.send_string("ID:GP,AXS," + str(i) +","+ str(i+1) + "," + str(new_value[i]) + ","+ str(new_value[i+1]))
+                self.logger.save_line("ID:GP,AXS," + str(i) +","+ str(i+1) + "," + str(new_value[i]) + ","+ str(new_value[i+1]))
+                self.axis_state[i] = new_value[i]
+                self.axis_state[i+1] = new_value[i+1]
+                                
     def main_loop(self):
         self.initGamepad()
         while self.enabled:

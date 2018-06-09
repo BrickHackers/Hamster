@@ -24,9 +24,10 @@ class Motor:
         self.running = True
     
     def change_direction(self,new_dir):
-        self.stand_by()
-        #newDir = self.get_dir(new_speed)
-        return None
+        self.stand_by(self.direction)
+        self.off()
+        self.direction = new_dir
+        self.start_up(new_dir)
 	
     def get_dir(self,speed):
         if(speed > 0):

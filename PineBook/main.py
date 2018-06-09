@@ -154,17 +154,15 @@ class master:
                     self.logger.save_line("Unspecified HAT: <"+Hat2num+">")
                 
             elif(msg.find("AXS")>-1):
+                data = msg.split(",")
                 axsNum = msg.split(",")[2]
-                axsValue = msg.split(",")[3]
-                print "Axes " + axsNum+" value: " + axsValue
+                print "Axes " + data[2] + " , " + data[3] +" value: " + data[4] + " , " + data[5]
                 if(axsNum=="0"):
-                    self.msgSoPineOut.append("ID:PB,TO:RPi,Motor,Rot,B,"+axsValue+",")
-                elif(axsNum=="1"):
-                    self.msgSoPineOut.append("ID:PB,TO:RPi,Motor,Move,X,"+axsValue+",")
+                    self.msgSoPineOut.append("ID:PB,TO:RPi,Motor,"+data[4]+","+data[5]+",")
                 elif(axsNum=="2"):
-                    self.msgSoPineOut.append("ID:PB,TO:RPi,Cam,Rot,B,"+axsValue+",")
-                elif(axsNum=="3"):
-                    self.msgSoPineOut.append("ID:PB,TO:RPi,Cam,Rot,C,"+axsValue+",")
+                    self.msgSoPineOut.append("ID:PB,TO:RPi,Cam,"+data[4]+","+data[5]+",")
+                else:
+                    self.logger.save_line("Wrong axis number: <"+msg+">")
             else:
                 self.logger.save_line("Wrong input from gamepad: <"+msg+">")
             

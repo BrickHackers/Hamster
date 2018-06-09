@@ -89,21 +89,21 @@ class master:
                     elif(btnNum=="1"):
                         self.comboLEDred = 1
                     elif(btnNum=="2"):
-                        self.msgSoPineOut.append("ID:PB,TO:ALL,TotalStop")
+                        self.msgSoPineOut.append("ID:PB,TO:ALL,TotalStop,")
                     elif(btnNum=="3"):
                         self.comboLEDwhiteWarm = 1
                     elif(btnNum=="4"):
-                        self.msgSoPineOut.append("ID:PB,TO:RPi,Motor,Z,1")
+                        self.msgSoPineOut.append("ID:PB,TO:RPi,Motor,Z,1,")
                     elif(btnNum=="5"):
-                        self.msgSoPineOut.append("ID:PB,TO:SoPine,GoPro,REC")
+                        self.msgSoPineOut.append("ID:PB,TO:SoPine,GoPro,REC,")
                     elif(btnNum=="6"):
-                        self.msgSoPineOut.append("ID:PB,TO:RPi,Motor,Move,Z,-1")
+                        self.msgSoPineOut.append("ID:PB,TO:RPi,Motor,Move,Z,-1,")
                     elif(btnNum=="7"):
-                        self.msgSoPineOut.append("ID:PB,TO:RPi,Pump,Toggle")
+                        self.msgSoPineOut.append("ID:PB,TO:RPi,Pump,Toggle,")
                     elif(btnNum=="8"):
-                        self.msgSoPineOut.append("ID:PB,TO:All,Shutdown")
+                        self.msgSoPineOut.append("ID:PB,TO:All,Shutdown,")
                     elif(btnNum=="9"):
-                        self.msgSoPineOut.append("ID:PB,TO:All,Start")
+                        self.msgSoPineOut.append("ID:PB,TO:All,Start,")
                     else:
                         self.logger.save_line("Unspecified button: <"+btnNum+">")
                 
@@ -123,33 +123,33 @@ class master:
                 if(hat2Num=="0"):
                     if(hatState=="1"):
                         if(self.comboLEDwhiteCold == 1):
-                            self.msgSoPineOut.append("ID:PB,TO:RPi,LED,whiteCold,ON")
+                            self.msgSoPineOut.append("ID:PB,TO:RPi,LED,whiteCold,ON,")
                         elif(self.comboLEDred == 1):
-                            self.msgSoPineOut.append("ID:PB,TO:RPi,LED,red,ON")
+                            self.msgSoPineOut.append("ID:PB,TO:RPi,LED,red,ON,")
                         elif(self.comboLEDwhiteWarm == 1):
-                            self.msgSoPineOut.append("ID:PB,TO:RPi,LED,whiteWarm,ON")
+                            self.msgSoPineOut.append("ID:PB,TO:RPi,LED,whiteWarm,ON,")
                     elif(hatState=="-1"):
                         if(self.comboLEDwhiteCold == 1):
-                            self.msgSoPineOut.append("ID:PB,TO:RPi,LED,whiteCold,OFF")
+                            self.msgSoPineOut.append("ID:PB,TO:RPi,LED,whiteCold,OFF,")
                         elif(self.comboLEDred == 1):
-                            self.msgSoPineOut.append("ID:PB,TO:RPi,LED,red,OFF")
+                            self.msgSoPineOut.append("ID:PB,TO:RPi,LED,red,OFF,")
                         elif(self.comboLEDwhiteWarm == 1):
-                            self.msgSoPineOut.append("ID:PB,TO:RPi,LED,whiteWarm,OFF")
+                            self.msgSoPineOut.append("ID:PB,TO:RPi,LED,whiteWarm,OFF,")
                 elif(hat2Num=="1"):
                     if(hatState=="1"):
                         if(self.comboLEDwhiteCold == 1):
-                            self.msgSoPineOut.append("ID:PB,TO:RPi,LED,whiteCold,10,i")
+                            self.msgSoPineOut.append("ID:PB,TO:RPi,LED,whiteCold,10,i,")
                         elif(self.comboLEDred == 1):
-                            self.msgSoPineOut.append("ID:PB,TO:RPi,LED,red,10,i")
+                            self.msgSoPineOut.append("ID:PB,TO:RPi,LED,red,10,i,")
                         elif(self.comboLEDwhiteWarm == 1):
-                            self.msgSoPineOut.append("ID:PB,TO:RPi,LED,whiteWarm,10,i")
+                            self.msgSoPineOut.append("ID:PB,TO:RPi,LED,whiteWarm,10,i,")
                     elif(hatState=="-1"):
                         if(self.comboLEDwhiteCold == 1):
-                            self.msgSoPineOut.append("ID:PB,TO:RPi,LED,whiteCold,10,d")
+                            self.msgSoPineOut.append("ID:PB,TO:RPi,LED,whiteCold,10,d,")
                         elif(self.comboLEDred == 1):
-                            self.msgSoPineOut.append("ID:PB,TO:RPi,LED,red,10,d")
+                            self.msgSoPineOut.append("ID:PB,TO:RPi,LED,red,10,d,")
                         elif(self.comboLEDwhiteWarm == 1):
-                            self.msgSoPineOut.append("ID:PB,TO:RPi,LED,whiteWarm,10,d")
+                            self.msgSoPineOut.append("ID:PB,TO:RPi,LED,whiteWarm,10,d,")
                 else:
                     self.logger.save_line("Unspecified HAT: <"+Hat2num+">")
                 
@@ -158,13 +158,13 @@ class master:
                 axsValue = msg.split(",")[3]
                 print "Axes " + axsNum+" value: " + axsValue
                 if(axsNum=="0"):
-                    self.msgSoPineOut.append("ID:PB,TO:RPi,Motor,Rot,B,"+axsValue)
+                    self.msgSoPineOut.append("ID:PB,TO:RPi,Motor,Rot,B,"+axsValue+",")
                 elif(axsNum=="1"):
-                    self.msgSoPineOut.append("ID:PB,TO:RPi,Motor,Move,X,"+axsValue)
+                    self.msgSoPineOut.append("ID:PB,TO:RPi,Motor,Move,X,"+axsValue+",")
                 elif(axsNum=="2"):
-                    self.msgSoPineOut.append("ID:PB,TO:RPi,Cam,Rot,B,"+axsValue)
+                    self.msgSoPineOut.append("ID:PB,TO:RPi,Cam,Rot,B,"+axsValue+",")
                 elif(axsNum=="3"):
-                    self.msgSoPineOut.append("ID:PB,TO:RPi,Cam,Rot,C,"+axsValue)
+                    self.msgSoPineOut.append("ID:PB,TO:RPi,Cam,Rot,C,"+axsValue+",")
             else:
                 self.logger.save_line("Wrong input from gamepad: <"+msg+">")
             

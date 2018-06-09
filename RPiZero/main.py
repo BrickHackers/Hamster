@@ -6,6 +6,7 @@ import zmq
 import subprocess
 from SerialWriter import MySerial
 from ROV_640 import LEDs,Pump
+from ROV_ESC import Motor,Servo
 
 class master:
     def __init__(self):
@@ -25,7 +26,11 @@ class master:
     
         self.pump = Pump(6)
         
-        self.Motors = [LedWC, LedWW, LedRA]
+        MotX1 = Motor(1)
+        MotX2 = Motor(2)
+        MotZ  = Motor(3)
+        
+        self.Motors = [MotX1,MotX2,MotZ]
         
         signal.signal(signal.SIGINT, self.sigINT_Handler)
         

@@ -13,7 +13,7 @@ class master:
         self.InPB = "10009"
         self.OutPB = "10010"
         self.InRPi = "10019"
-        self.InMBED = "10020"
+        self.InMBED = "10018"
         
         self.msgRPiOut = []
         self.msgMBEDOut = []

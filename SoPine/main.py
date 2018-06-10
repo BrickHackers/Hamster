@@ -98,18 +98,9 @@ class master:
             if(msg.find("TO:RPi")>0):
                 self.msgRPiOut.append(msg)
             elif(msg.find("TO:SoPine")>0):
-                FirstPart = msg.split(",")[2]
-                SecondPart = msg.split(",")[3]
-                if(FirstPart == "GoPro"):
-                    if(SecondPart == "REC"):
-                        if(self.GoProREC == 0):
-                            self.GoProREC = 1
-                        elif(self.GoProREC == 1):
-                            self.GoProREC = 0
-                        else:
-                            self.logger.save_line("GoPro confused!")
-                    else:
-                        self.logger.save_line("Unknown GoPro message! <" +SecondPart+ ">")                
+                data = msg.split(",")
+                if(data[2] == "GoPro"):
+                    self.goPro(data[3])
                 ''' TODO:
                 Camera support (On/Off)
                 GoPro (mode VID/PIC, start/stop/takePic, resolution(?))
@@ -137,6 +128,11 @@ class master:
             '''
         else:
             self.logger.save_line("Message ID not supported! <" +msg+ ">")
+
+    def goPro(self,msg):
+        if(msg == "REC"):
+            #self.goPro.toggleRec()
+            pass
 
     def initRobot(self):
         sleep(1)

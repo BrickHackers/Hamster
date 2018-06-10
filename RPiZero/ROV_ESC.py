@@ -88,7 +88,7 @@ class Servo:
         self.servo.setPWMuS(1500+500*new_pos)
         
     def goHome(self):
-        self.servo.setPWMuS(1500+500*new_pos)
+        self.servo.setPWMuS(1500)
         
         
         

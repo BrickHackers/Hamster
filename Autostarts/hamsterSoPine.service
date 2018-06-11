@@ -1,0 +1,14 @@
+[Unit]
+Description=Start hamster scripts as part of system
+After=local-fs.target network.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/env "/home/teapack/GIT/hamster/Autostarts/SoPineAutostart.sh"
+User=teapack
+Group=teapack
+
+[Install]
+WantedBy=multi-user.target
+
+

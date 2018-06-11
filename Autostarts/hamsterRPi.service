@@ -1,0 +1,13 @@
+[Unit] Description=Start hamster scrits as part of system 
+After=local-fs.target network.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/env "/home/teapack/GIT/hamster/Autostarts/RPiAutostart.sh"
+User=teapack
+Group=teapack
+
+[Install]
+WantedBy=multi-user.target
+
+

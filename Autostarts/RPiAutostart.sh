@@ -1,7 +1,7 @@
 #!/bin/bash
 
-cd ../PineBook/
-python SerialReader.py /dev/ttyAMAO 115200 10020 FromSoPine &
+cd /home/teapack/GIT/hamster/RPiZero/
+python SerialReader.py /dev/ttyAMA0 115200 10020 FromSoPine &
 python main.py &
 
 exit 0

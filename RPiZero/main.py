@@ -17,9 +17,9 @@ class master:
         self.enabled = True
         self.externals = False
         
-        LedWC = LEDs(1)
-        LedWW = LEDs(2)
-        LedRA = LEDs(3)
+        LedWC = LEDs(4)
+        LedWW = LEDs(5)
+        LedRA = LEDs(6)
         
         self.Leds = [LedWC, LedWW, LedRA]
         self.leds_dict = {"whiteCold":0,"whiteWarm":1,"red":2}

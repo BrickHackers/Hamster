@@ -126,7 +126,7 @@ class master:
     
     def parseMotor(self,data):
         if(self.externals):
-			speed = data[3]
+            speed = data[3]
             direction = data[2]
             motorA = speed + direction
             motorB = speed - direction

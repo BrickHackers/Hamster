@@ -130,19 +130,19 @@ class master:
             direction = data[2]
             motorA = speed + direction
             motorB = speed - direction
-			
+
             self.Motors[0].update_speed(MotorA)
             self.Motors[1].update_speed(MotorB)
-    
+
     def parseServo(self,data):
         if(self.externals):
-			#TODO smt
-			pass
+            #TODO smt
+            pass
     def parsePump(self,data):
         if(self.externals):
             #TODO smt
             pass
-	
+
     def estop(self):
         self.externals = False
         for led in self.Leds:
@@ -150,7 +150,7 @@ class master:
         for motor in self.Motors:
             motor.off()
         pump.off()
-		
+
     def enable(self):
         self.externals = True
 
@@ -163,6 +163,6 @@ class master:
             self.checkAll()
             sleep(0.05)
         self.deinitRobot()
-        
+
 M = master()
 M.run()

@@ -17,11 +17,10 @@ class LEDs:
 	def __init__(self,port,addr=0x60):
 		self.dw = dw_Controller(addr)
 		self.LED = self.dw.getMotor(port)
-		self.LED.off()
-		self.intensity = 64
+		self.set_intensity(1)
 		
 	def off(self):
-		self.LED.off()
+		self.set_intensity(0)
 		
 	def on(self):
 		self.LED.setMotorSpeed(self.intensity)

@@ -34,3 +34,12 @@ class LEDs:
 		else:
 			self.intensity = new_intensity
 		self.LED.setMotorSpeed(self.intensity)
+
+	def set_intensity(self,value):
+		if(value > 255):
+			self.intensity = 255
+		elif(value < 0):
+			self.intensity = 0
+		else:
+			self.intensity = value
+		self.LED.setMotorSpeed(self.intensity)

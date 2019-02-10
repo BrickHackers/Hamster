@@ -24,7 +24,7 @@ class master:
         self.Leds = [LedWC, LedWW, LedRA]
         self.leds_dict = {"whiteCold":0,"whiteWarm":1,"red":2}
     
-        self.pump = Pump(6)
+        self.pumps = [Pump(1),Pump(2)]
         
         MotX1 = Motor(1)
         MotX2 = Motor(2)

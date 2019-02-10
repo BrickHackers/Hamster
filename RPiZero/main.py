@@ -141,6 +141,34 @@ class master:
 
     def initRobot(self):
         sleep(1)
+        self.Leds[0].set_intensity(34)
+        sleep(0.2)
+        self.Leds[0].off()
+        self.Leds[1].set_intensity(34)
+        sleep(0.2)
+        self.Leds[1].off()
+        self.Leds[2].set_intensity(34)
+        sleep(0.2)
+        self.Leds[2].off()
+        
+        sleep(0.5)
+        self.Motors[0].on()
+        sleep(0.2)
+        self.Motors[0].off()
+        self.Motors[1].on()
+        sleep(0.2)
+        self.Motors[1].off()
+        self.Motors[2].on()
+        sleep(0.2)
+        self.Motors[2].off()
+        
+        sleep(0.5)
+        self.pumps[0].on()
+        sleep(0.2)
+        self.pumps[1].on()
+        sleep(0.5)
+        self.pumps[0].off()
+        self.pumps[1].off()
     
     def run(self):
         self.initRobot()

@@ -87,7 +87,7 @@ class master:
                 self.logger.save_line("Unknown message toAll <"+data[1]+ ";"+data[2]+">" )
         else:
             self.logger.save_line("Unknown message destination! <" +msg+ ">")
-	
+    
     def parseLED(self,data):
         print "Parsing LEDs " + str(self.leds_dict[data[0]])
         if(self.externals):
@@ -122,6 +122,7 @@ class master:
         if(self.externals):
             #TODO smt
             pass
+    
     def parsePump(self,data):
         if(self.externals):
             #TODO smt
@@ -140,7 +141,7 @@ class master:
 
     def initRobot(self):
         sleep(1)
-
+    
     def run(self):
         self.initRobot()
         while(self.enabled):

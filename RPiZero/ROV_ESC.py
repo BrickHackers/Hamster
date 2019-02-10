@@ -28,7 +28,7 @@ class Motor:
         self.off()
         self.direction = new_dir
         self.start_up(new_dir)
-	
+    
     def get_dir(self,speed):
         if(speed > 0):
             return self.dirdic["CW"]
@@ -89,10 +89,8 @@ class Servo:
         
     def goHome(self):
         self.servo.setPWMuS(1500)
-        
-        
-        
-        
+
+
 
 
 

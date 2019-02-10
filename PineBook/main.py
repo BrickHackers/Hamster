@@ -76,7 +76,7 @@ class master:
             self.publisherSoPine.send_string(msg)
             self.logger.save_line("sending:"+msg)
         self.msgSoPineOut= []
-		
+    
     def parseMessage(self,msg):
         if(msg.find("ID:GP")>-1):
             if(msg.find("BTN")>-1):

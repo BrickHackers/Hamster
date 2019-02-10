@@ -35,8 +35,6 @@ class master:
         signal.signal(signal.SIGINT, self.sigINT_Handler)
         
         self.serialSoPine = MySerial("/dev/ttyAMA0", "Serial_TO_soPine")
-                
-        self.getIP()
         
         zMQC = zmq.Context()
         self.subscriber = zMQC.socket(zmq.SUB)
@@ -45,18 +43,7 @@ class master:
         self.subscriber.setsockopt(zmq.SUBSCRIBE, b"")
         
         sleep(0.5)
-        
-    def getIP(self):
-        cmd = ["ip","address"]
-        data = subprocess.check_output(cmd)
-        data = data.split("\n")
-        addrs = []
-        for line in data:
-            if (line.find("inet ") > 0) and (line.find("global") > 0):
-                startIndex = line.find("inet ")
-                stopIndex = line.find("/24")
-                self.ip = line[startIndex+5:stopIndex]
-        
+
     def sigINT_Handler(self, signal, frame):
         print("\nMaster detected SigINT signal")
         self.logger.save_line("Signal SigINT detected")

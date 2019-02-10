@@ -138,18 +138,18 @@ class master:
                 elif(hat2Num=="1"):
                     if(hatState=="1"):
                         if(self.comboLEDwhiteCold == 1):
-                            self.msgSoPineOut.append("ID:PB,TO:RPi,LED,whiteCold,10,i,")
+                            self.msgSoPineOut.append("ID:PB,TO:RPi,LED,whiteCold,I,")
                         elif(self.comboLEDred == 1):
-                            self.msgSoPineOut.append("ID:PB,TO:RPi,LED,red,10,i,")
+                            self.msgSoPineOut.append("ID:PB,TO:RPi,LED,red,I,")
                         elif(self.comboLEDwhiteWarm == 1):
-                            self.msgSoPineOut.append("ID:PB,TO:RPi,LED,whiteWarm,10,i,")
+                            self.msgSoPineOut.append("ID:PB,TO:RPi,LED,whiteWarm,I,")
                     elif(hatState=="-1"):
                         if(self.comboLEDwhiteCold == 1):
-                            self.msgSoPineOut.append("ID:PB,TO:RPi,LED,whiteCold,10,d,")
+                            self.msgSoPineOut.append("ID:PB,TO:RPi,LED,whiteCold,D,")
                         elif(self.comboLEDred == 1):
-                            self.msgSoPineOut.append("ID:PB,TO:RPi,LED,red,10,d,")
+                            self.msgSoPineOut.append("ID:PB,TO:RPi,LED,red,D,")
                         elif(self.comboLEDwhiteWarm == 1):
-                            self.msgSoPineOut.append("ID:PB,TO:RPi,LED,whiteWarm,10,d,")
+                            self.msgSoPineOut.append("ID:PB,TO:RPi,LED,whiteWarm,D,")
                 else:
                     self.logger.save_line("Unspecified HAT: <"+Hat2num+">")
                 

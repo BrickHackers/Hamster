@@ -96,16 +96,13 @@ class master:
                 self.Leds[self.leds_dict[data[0]]].on()
             elif(data[1] == "OFF"):
                 self.Leds[self.leds_dict[data[0]]].off()
-                print "LED" + data[0] + " OFF"
-            elif(data[1] == "10"):
-                if(data[2] == "i"):
-                    self.Leds[self.leds_dict[data[0]]].change_intensity(int(data[1]))
-                    print "LED" + data[0] + " increase " + str(int(data[1]))
-                elif(data[2] == "d"):
-                    self.Leds[self.leds_dict[data[0]]].change_intensity(-1*int(data[1]))
-                    print "LED" + data[0] + " decrease " + str(-1*int(data[1]))
-                else:
-                    self.logger.save_line("Unknown LED intensity! <" +data[:]+ ">")
+                print("LED" + data[0] + " OFF")
+            elif(data[1] == "I"):
+                self.Leds[self.leds_dict[data[0]]].increase_intensity()
+                    print("LED" + data[0] + " increased.")
+            elif(data[1] == "D"):
+                self.Leds[self.leds_dict[data[0]]].decrease_intensity()
+                print("LED" + data[0] + " decreased")
             else:
                 self.logger.save_line("Unknown LED command! <" +data[:]+ ">")
         else:

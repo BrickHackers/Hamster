@@ -89,10 +89,10 @@ class master:
             self.logger.save_line("Unknown message destination! <" +msg+ ">")
     
     def parseLED(self,data):
-        print "Parsing LEDs " + str(self.leds_dict[data[0]])
+        print("Parsing LEDs " + str(self.leds_dict[data[0]]))
         if(self.externals):
             if(data[1] == "ON"):
-                print "LED" + data[0] + " ON"
+                print("LED" + data[0] + " ON")
                 self.Leds[self.leds_dict[data[0]]].on()
             elif(data[1] == "OFF"):
                 self.Leds[self.leds_dict[data[0]]].off()
